@@ -1,4 +1,4 @@
-const MULTIHIT_STATUS_CONTACT_GLITCH_TEXT = "In every Gen 3 Pokemon game except for Emerald, if the user of a multihit move that makes contact, except for Triple Kick, gets statused by a contact ability on the final hit, then there is a 1% chance that the defender is afflicted by the same status.";
+const MULTIHIT_STATUS_CONTACT_GLITCH_TEXT = "In Gen 3 games besides Pokemon Emerald, if the final hit of a multihit move (except for Triple Kick) that makes contact triggers an ability that inflicts status, then there is a 1% chance that the defender is afflicted by the same status."
 
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
 	effectspore: {
