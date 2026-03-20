@@ -409,6 +409,7 @@ export const Scripts: ModdedBattleScriptsData = {
 				for (i = 0; i < hits && target.hp && pokemon.hp; i++) {
 					if (pokemon.status === 'slp' && !isSleepUsable) break;
 					move.hit = i + 1;
+					if (move.hit === hits) move.lastHit = true;
 
 					if (move.multiaccuracy && i > 0) {
 						accuracy = move.accuracy;
