@@ -16,8 +16,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		inherit: true,
 		onDamagingHit(damage, target, source, move) {
 			if (damage && move.flags['contact'] && !source.status) {
-				const r = this.random(100);
-				let status = '';
+				const r = this.random(300);
+				let status = null;
 				if (r < 10) {
 					status = 'slp';
 				} else if (r < 20) {
