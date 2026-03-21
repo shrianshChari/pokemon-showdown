@@ -1,6 +1,6 @@
 function attemptStatuses(battle: Battle, target: Pokemon, source: Pokemon, move: ActiveMove, status: string) {
-	const attackerStatused = source.trySetStatus(status, target);
-	if (move.multihit && attackerStatused && move.id !== 'triplekick' &&
+	source.trySetStatus(status, target);
+	if (move.multihit && move.id !== 'triplekick' &&
 		(move.lastHit || status === 'slp') && battle.randomChance(1, 100)) {
 		const defenderStatused = target.trySetStatus(status, target, move);
 		if (defenderStatused) {
