@@ -19,7 +19,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 					if (statusesAttacker && move.multihit && move.id !== 'triplekick' &&
 						this.randomChance(1, 100)) {
 						if (status === 'slp' || move.lastHit) {
-							target.trySetStatus(status);
+							target.trySetStatus(status, target, move);
 							this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
 						}
 					}
@@ -35,7 +35,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 					const statusesAttacker = source.trySetStatus('brn', target);
 					if (move.multihit && move.lastHit && statusesAttacker &&
 						move.id !== 'triplekick' && this.randomChance(1, 100)) {
-						target.trySetStatus('brn');
+						target.trySetStatus('brn', target, move);
 						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
 					}
 				}
@@ -50,7 +50,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 					const statusesAttacker = source.trySetStatus('psn', target);
 					if (move.multihit && move.lastHit && statusesAttacker &&
 						move.id !== 'triplekick' && this.randomChance(1, 100)) {
-						target.trySetStatus('psn');
+						target.trySetStatus('psn', target, move);
 						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
 					}
 				}
@@ -64,8 +64,8 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 				if (this.randomChance(1, 3)) {
 					const statusesAttacker = source.trySetStatus('par', target);
 					if (move.multihit && move.lastHit && statusesAttacker &&
-						move.id !== 'triplekick' && this.randomChance(1, 100)) {
-						target.trySetStatus('par');
+						move.id !== 'triplekick') {
+						target.trySetStatus('par', target, move);
 						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
 					}
 				}
