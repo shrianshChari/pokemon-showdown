@@ -1,13 +1,11 @@
-import type { Battle, Pokemon } from '../../../sim';
-
-const MULTIHIT_STATUS_CONTACT_GLITCH_TEXT = "In Gen 3 games besides Pokemon Emerald, if the final hit of a multihit move (except for Triple Kick) that makes contact triggers an ability that inflicts status, then there is a 1% chance that the defender is afflicted by the same status.";
-
 function attemptStatuses(battle: Battle, target: Pokemon, source: Pokemon, move: ActiveMove, status: string) {
 	const attackerStatused = source.trySetStatus(status, target);
 	if (move.multihit && attackerStatused && move.id !== 'triplekick' &&
 		(move.lastHit || status === 'slp') && battle.randomChance(1, 100)) {
-		target.trySetStatus(status, target, move);
-		battle.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
+		const defenderStatused = target.trySetStatus(status, target, move);
+		if (defenderStatused) {
+			battle.hint("In Pokemon Colosseum and XD: Gale of Darkness, if the final hit of a multihit move (except for Triple Kick) that makes contact triggers an ability that inflicts status, then there is a 1% chance that the defender is afflicted by the same status.");
+		}
 	}
 }
 
