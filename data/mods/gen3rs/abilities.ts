@@ -1,4 +1,15 @@
+import type { Battle, Pokemon } from '../../../sim';
+
 const MULTIHIT_STATUS_CONTACT_GLITCH_TEXT = "In Gen 3 games besides Pokemon Emerald, if the final hit of a multihit move (except for Triple Kick) that makes contact triggers an ability that inflicts status, then there is a 1% chance that the defender is afflicted by the same status.";
+
+function attemptStatuses(battle: Battle, target: Pokemon, source: Pokemon, move: ActiveMove, status: string) {
+	const attackerStatused = source.trySetStatus(status, target);
+	if (move.multihit && attackerStatused && move.id !== 'triplekick' &&
+		(move.lastHit || status === 'slp') && battle.randomChance(1, 100)) {
+		target.trySetStatus(status, target, move);
+		battle.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
+	}
+}
 
 export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTable = {
 	effectspore: {
@@ -15,14 +26,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 					status = 'psn';
 				}
 				if (status) {
-					const statusesAttacker = source.setStatus(status, target);
-					if (statusesAttacker && move.multihit && move.id !== 'triplekick' &&
-						this.randomChance(1, 100)) {
-						if (status === 'slp' || move.lastHit) {
-							target.trySetStatus(status, target, move);
-							this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
-						}
-					}
+					attemptStatuses(this, target, source, move, status);
 				}
 			}
 		},
@@ -32,12 +36,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		onDamagingHit(damage, target, source, move) {
 			if (damage && move.flags['contact']) {
 				if (this.randomChance(1, 3)) {
-					const statusesAttacker = source.trySetStatus('brn', target);
-					if (move.multihit && move.lastHit && statusesAttacker &&
-						move.id !== 'triplekick' && this.randomChance(1, 100)) {
-						target.trySetStatus('brn', target, move);
-						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
-					}
+					attemptStatuses(this, target, source, move, 'brn');
 				}
 			}
 		},
@@ -47,12 +46,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		onDamagingHit(damage, target, source, move) {
 			if (damage && move.flags['contact']) {
 				if (this.randomChance(1, 3)) {
-					const statusesAttacker = source.trySetStatus('psn', target);
-					if (move.multihit && move.lastHit && statusesAttacker &&
-						move.id !== 'triplekick' && this.randomChance(1, 100)) {
-						target.trySetStatus('psn', target, move);
-						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
-					}
+					attemptStatuses(this, target, source, move, 'psn');
 				}
 			}
 		},
@@ -62,12 +56,7 @@ export const Abilities: import('../../../sim/dex-abilities').ModdedAbilityDataTa
 		onDamagingHit(damage, target, source, move) {
 			if (damage && move.flags['contact']) {
 				if (this.randomChance(1, 3)) {
-					const statusesAttacker = source.trySetStatus('par', target);
-					if (move.multihit && move.lastHit && statusesAttacker &&
-						move.id !== 'triplekick') {
-						target.trySetStatus('par', target, move);
-						this.hint(MULTIHIT_STATUS_CONTACT_GLITCH_TEXT);
-					}
+					attemptStatuses(this, target, source, move, 'par');
 				}
 			}
 		},
