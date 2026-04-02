@@ -1,7 +1,8 @@
 function attemptStatuses(battle: Battle, target: Pokemon, source: Pokemon, move: ActiveMove, status: string) {
-	source.trySetStatus(status, target);
+	const attackerStatused = source.trySetStatus(status, target);
 	if (move.multihit && move.id !== 'triplekick' &&
-		(move.lastHit || status === 'slp') && battle.randomChance(1, 100)) {
+		(move.lastHit || (attackerStatused && status === 'slp')) &&
+		battle.randomChance(1, 100)) {
 		const defenderStatused = target.trySetStatus(status, target, move);
 		if (defenderStatused) {
 			battle.hint("In Pokemon Ruby, Sapphire, FireRed, LeafGreen, and Colosseum, if the final hit of a multihit move (except for Triple Kick) that makes contact triggers an ability that inflicts status, then there is a 1% chance that the defender is afflicted by the same status.");
